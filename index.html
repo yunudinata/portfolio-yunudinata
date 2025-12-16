@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Editor Video | Yunu Dinata</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e;
+            color: #e0e0ff;
+        }
+
+        .editor-container {
+            /* Menambahkan padding-bottom agar konten tidak tertutup footer */
+            min-height: 100vh;
+            padding-top: 64px;
+            padding-bottom: 50px;
+        }
+
+        .panel {
+            background-color: #23233c;
+            border: 1px solid #3a3a5a;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            border-radius: 0.5rem;
+            /* Menambahkan rounded corner ke panel */
+        }
+
+        /* Accent color */
+        .accent-text {
+            color: #7289da;
+            /* blue/purple */
+        }
+
+        .timeline-bar {
+            height: 3px;
+            background-color: #7289da;
+        }
+
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Kelas kustom untuk menjamin aspek rasio 16:9 pada media */
+        /* Menggunakan padding-bottom untuk menahan aspek rasio */
+        .aspect-16-9-container {
+            width: 100%;
+            padding-bottom: 56.25%;
+            /* (9 / 16) * 100% */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .aspect-16-9-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Menggunakan kelas ini untuk video placeholder yang sudah ada */
+        .video-placeholder.aspect-16-9-container {
+            height: auto;
+            /* Dihapus karena aspek rasio ditahan oleh padding-bottom */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+            border-radius: 0.5rem;
+        }
+
+        .video-placeholder:hover {
+            transform: translateY(-2px);
+            border-color: #99aaff;
+        }
+
+        /* Mengatur ukuran gambar profil agar responsif */
+        #profil img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        /* Mengatur tampilan footer agar tidak menghalangi konten di mobile */
+        footer {
+            z-index: 40;
+            /* Ensure footer is above other content */
+        }
+        
+        /* Modal Custom Style for macOS-like window */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .modal-content {
+            background-color: #23233c;
+            /* Same as panel */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 0.75rem; /* Rounded corners */
+            overflow: hidden;
+        }
+
+        .modal-header-dots {
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Navbar -->
+    <nav
+        class="fixed top-0 left-0 right-0 z-50 bg-[#121223] panel p-3 flex flex-col sm:flex-row justify-between items-center border-b border-[#3a3a5a] rounded-none">
+        <div class="text-xl font-bold code-font accent-text mb-2 sm:mb-0">
+            [YUNU_DINATA].prproj
+        </div>
+        <!-- Menyesuaikan layout menu di mobile -->
+        <div class="flex flex-wrap justify-center space-x-3 sm:space-x-6 text-xs sm:text-sm">
+            <a href="#home" class="hover:text-white transition duration-150 text-[#99aaff]">File</a>
+            <a href="#profil" class="hover:text-white transition duration-150">Edit</a>
+            <a href="#riwayat-kerja" class="hover:text-white transition duration-150">Sequence</a>
+            <a href="#project-freelance" class="hover:text-white transition duration-150">Effects</a>
+            <a href="#kontak" class="hover:text-white transition duration-150">Export</a>
+        </div>
+        <div class="text-xs text-gray-500 code-font hidden md:block">
+            STATUS: Online | Render Queue: 0
+        </div>
+    </nav>
+
+    <!-- Kontainer Utama -->
+    <main class="editor-container p-4 lg:p-10">
+
+        <!-- 1. LANDING PAGE -->
+        <section id="home" class="mb-10 panel p-6 sm:p-8">
+            <div class="text-center">
+                <h1 class="text-4xl sm:text-6xl font-extrabold mb-4 accent-text code-font tracking-tight">
+                    VIDEO PORTFOLIO V2.5
+                </h1>
+                <p class="text-lg sm:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto">
+                    Transformasi Ide. Storytelling. Video Pendek.
+                </p>
+                <!-- Button CTA -->
+                <a href="#pekerjaan-sekarang"
+                    class="inline-block px-6 py-3 sm:px-8 sm:py-3 bg-[#7289da] text-[#121223] font-bold rounded-md shadow-lg hover:bg-[#99aaff] transition duration-300 transform hover:scale-105">
+                    START PROJECT
+                </a>
+            </div>
+
+            <!-- Timeline -->
+            <div class="mt-12">
+                <h2 class="text-xl font-semibold mb-3 text-gray-300">Quick Stats:</h2>
+                <!-- Mengubah tata letak agar responsif -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="panel p-4 rounded-lg text-center">
+                        <p class="text-2xl sm:text-3xl font-bold accent-text code-font">4+</p>
+                        <p class="text-sm text-gray-400">Tahun Pengalaman</p>
+                    </div>
+                    <div class="panel p-4 rounded-lg text-center">
+                        <p class="text-2xl sm:text-3xl font-bold accent-text code-font">800+</p>
+                        <p class="text-sm text-gray-400">Total Video Di-render</p>
+                    </div>
+                    <div class="panel p-4 rounded-lg text-center">
+                        <p class="text-2xl sm:text-3xl font-bold accent-text code-font">530M+</p>
+                        <p class="text-sm text-gray-400">Total View (Estimated)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Container Utama -->
+        <!-- Menggunakan grid untuk tata letak 2 kolom di desktop (lg) dan 1 kolom di mobile -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+            <!-- Panel Kiri (1 kolom di desktop) -->
+            <aside class="lg:col-span-1 space-y-6 order-2 lg:order-1">
+
+                <!-- 2. PROFIL -->
+                <section id="profil" class="panel p-6">
+                    <h2 class="text-2xl font-bold mb-4 border-b border-gray-600 pb-2 accent-text">
+                        :USER_PROFILE.BIN
+                    </h2>
+                    <div class="mb-4">
+                        <!-- Menambahkan data-src untuk modal -->
+                        <img src="assets/Profile.jpg" alt="Avatar Profil" data-media-src="assets/Profile.jpg" data-media-title="Foto Profil - Yunu Rachmadinata"
+                            class="rounded-full mx-auto mb-4 border-4 border-gray-600 w-32 h-32 object-cover cursor-pointer hover:opacity-80 transition" id="profile-pic">
+                        <p class="text-lg font-semibold text-center">Yunu Rachmadinata</p>
+                        <p class="text-sm text-gray-400 text-center code-font">Editor Video | YouTube Channel MOOBYl &
+                            Freelancer</p>
+                    </div>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Seorang Editor Video yang berfokus pada storytelling yang kuat dan ritme editan yang dinamis.
+                        Spesialisasi dalam konten *storytelling*, *video shorts*, *meme*, dan *edukasi*.
+                        Mayoritas editing dikerjakan dengan software Davinci Resolve, Adobe After Effects, dan Adobe
+                        Premiere Pro.
+                    </p>
+                </section>
+
+                <!-- Kontak Singkat -->
+                <section class="panel p-6">
+                    <h2 class="text-2xl font-bold mb-4 border-b border-gray-600 pb-2 accent-text">
+                        :CONTACT.LOG
+                    </h2>
+                    <p class="text-sm mb-2"><strong class="accent-text">Email:</strong> yunudinata@gmail.com</p>
+                    <p class="text-sm mb-2"><strong class="accent-text">WhatsApp:</strong> 0857-7533-1730</p>
+                </section>
+
+            </aside>
+
+            <!-- Panel Kanan (3 kolom di desktop) -->
+            <div class="lg:col-span-3 space-y-10 lg:space-y-12 order-1 lg:order-2">
+
+                <!-- 3. RIWAYAT KERJA (History Panel) -->
+                <section id="riwayat-kerja" class="panel p-6 sm:p-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 accent-text code-font">
+                        [01] RIWAYAT_KERJA.LOG
+                    </h2>
+                    <div class="space-y-6">
+                        <!-- Riwayat 1 -->
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <h3 class="text-lg sm:text-xl font-semibold text-white">Editor Utama - [Channel MOOBYL & JONPANIMA]
+                            </h3>
+                            <p class="text-sm text-gray-400 code-font">2023 - Sekarang | Full-Time</p>
+                            <ul class="list-disc list-inside text-gray-400 text-sm mt-2 ml-4">
+                                <li>Menulis dan membuat skrip untuk cerita animasi.</li>
+                                <li>Memproduksi dan mengedit 1 video konten animasi/minggu dengan durasi 10-15 menit.
+                                </li>
+                                <li>Bertanggung jawab atas editing harian 3-4 video shorts/minggu.</li>
+                            </ul>
+                        </div>
+                        <!-- Riwayat 2 -->
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <h3 class="text-lg sm:text-xl font-semibold text-white">Editor Utama- [Facebook Page Muezza]</h3>
+                            <p class="text-sm text-gray-400 code-font">2022 - 2023 | Full Time</p>
+                            <ul class="list-disc list-inside text-gray-400 text-sm mt-2 ml-4">
+                                <li>Bertanggung jawab atas editing 2 video kompilasi meme/minggu.</li>
+                                <li>Membuat highlights dari video streaming.</li>
+                            </ul>
+                        </div>
+                        <!-- Riwayat 3 -->
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <h3 class="text-lg sm:text-xl font-semibold text-white">Desainer Mockup - [Fanatika Studio - Freepik
+                                Exclusive Contributor]</h3>
+                            <p class="text-sm text-gray-400 code-font">2022 - 2024 | Freelancer</p>
+                            <ul class="list-disc list-inside text-gray-400 text-sm mt-2 ml-4">
+                                <li>Membuat dan mengunggah template mockup, seperti display kartu nama, kemasan produk,
+                                    atau layar gadget, yang siap pakai.</li>
+                                <li>Bertanggung jawab atas pembagian task di tim kecil.</li>
+                            </ul>
+                        </div>
+                        <!-- Riwayat 4 -->
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <h3 class="text-lg sm:text-xl font-semibold text-white">Videografer & Editor - [PT KB Finansia Multi
+                                Finance - Kreditplus]</h3>
+                            <p class="text-sm text-gray-400 code-font">2021 | Freelancer </p>
+                            <ul class="list-disc list-inside text-gray-400 text-sm mt-2 ml-4">
+                                <li>Bertanggung jawab atas pengambilan gambar untuk Company Profile.</li>
+                                <li>Mengedit video Company Profile.</li>
+                                <li>Membuat motion graphic untuk kebutuhan media sosial.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. PEKERJAAN SEKARANG -->
+                <section id="pekerjaan-sekarang" class="panel p-6 sm:p-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 accent-text code-font">
+                        [02] PEKERJAAN_SEKARANG.PROJ
+                    </h2>
+                    <p class="text-lg text-gray-300 mb-4">
+                        Konten Weekly YouTube Channel MOOBYL (16k Subs) & JONPANIMA (778k Subs)
+                    </p>
+
+                    <!-- GIF 1 (16:9) -->
+                    <!-- Menambahkan kelas clickable-media dan data-attributes -->
+                    <div class="mb-8 clickable-media cursor-pointer group" data-media-src="assets/eps_30_pre.gif" data-media-title="Timeline Video MOOBYL: Besar Di Jalan Eps 30">
+                        <div class="aspect-16-9-container rounded-lg mx-auto overflow-hidden border-2 border-transparent group-hover:border-[#7289da] transition">
+                            <img src="assets/eps_30_pre.gif" alt="Preview Timeline dan Hasil Export Video"
+                                onerror="this.onerror=null; this.src='assets/eps_30_pre.gif';">
+                        </div>
+                        <p class="text-center text-sm text-gray-500 mt-2 code-font">::SEQUENCE_MOO.gif | MOOBYL</p>
+                    </div>
+                    <!-- GIF 3 -->
+                    <div class="mb-8 clickable-media cursor-pointer group" data-media-src="assets/jl-06.gif" data-media-title="Timeline Video MOOBYL: Jalan Lain Eps 6">
+                        <div class="aspect-16-9-container rounded-lg mx-auto overflow-hidden border-2 border-transparent group-hover:border-[#7289da] transition">
+                            <img src="assets/jl-06.gif" alt="Preview Timeline dan Hasil Export Video"
+                                onerror="this.onerror=null; this.src='assets/jl-06.gif';">
+                        </div>
+                        <p class="text-center text-sm text-gray-500 mt-2 code-font">::SEQUENCE_MOO.gif | MOOBYL</p>
+                    </div>
+                    <!-- GIF 2 (16:9) -->
+                    <div class="mb-8 clickable-media cursor-pointer group" data-media-src="assets/jon_prev.gif" data-media-title="Timeline Video JONPANIMA: Shorts Terbaru">
+                        <div class="aspect-16-9-container rounded-lg mx-auto overflow-hidden border-2 border-transparent group-hover:border-[#7289da] transition">
+                            <img src="assets/jon_prev.gif" alt="Preview Timeline dan Hasil Export Video"
+                                onerror="this.onerror=null; this.src='assets/jon_prev.gif';">
+                        </div>
+                        <p class="text-center text-sm text-gray-500 mt-2 code-font">::SEQUENCE_JON.gif | JONPANIMA </p>
+                    </div>
+
+                    <!-- Video Thumbnails (16:9) - TIDAK DAPAT DIKLIK UNTUK MODAL KARENA BERUPA LINK EKSTERNAL -->
+                    <p class="text-xs text-gray-500 mb-2 mt-6">Klik thumbnail di bawah untuk membuka video YouTube.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                        <!-- Video 1 -->
+                        <a href="https://youtu.be/kRrOJwe4a20?si=9KnZnarCZpRcMzu3" target="_blank"
+                            class="video-placeholder group aspect-16-9-container">
+                            <!-- Thumbnail -->
+                            <img src="assets/thumbnails 4.jpg" alt="Thumbnail Video 1"
+                                class="object-cover opacity-50 transition duration-300 group-hover:opacity-75">
+                            <!-- Overlay Content -->
+                            <div class="relative z-10 flex flex-col items-center justify-center p-2">
+                                <span
+                                    class="text-center text-xs sm:text-sm font-semibold text-white p-1 sm:p-2 bg-black bg-opacity-50 rounded-md transition duration-300 group-hover:bg-opacity-75">
+                                    [MOOBYL] Besar Di Jalan Eps 4
+                                </span>
+                                <!-- Play Icon -->
+                                <svg class="w-8 h-8 text-[#7289da] opacity-0 group-hover:opacity-100 transition duration-300 mt-2"
+                                    fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4.004a1 1 0 001.555.832l3.868-2.002a1 1 0 000-1.664l-3.868-2.002z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <!-- Video 2 -->
+                        <a href="https://youtube.com/@jonpanima?si=sOHPyOxzaugYvwzi" target="_blank"
+                            class="video-placeholder group aspect-16-9-container">
+                            <!-- Thumbnail Placeholder (16:9 aspect ratio) -->
+                            <img src="assets/jonpanima.png" alt="Thumbnail Video 2"
+                                class="object-cover opacity-50 transition duration-300 group-hover:opacity-75">
+                            <!-- Overlay Content -->
+                            <div class="relative z-10 flex flex-col items-center justify-center p-2">
+                                <span
+                                    class="text-center text-xs sm:text-sm font-semibold text-white p-1 sm:p-2 bg-black bg-opacity-50 rounded-md transition duration-300 group-hover:bg-opacity-75">
+                                    [JONPANIMA] Shorts Video
+                                </span>
+                                <!-- Play Icon -->
+                                <svg class="w-8 h-8 text-[#7289da] opacity-0 group-hover:opacity-100 transition duration-300 mt-2"
+                                    fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4.004a1 1 0 001.555.832l3.868-2.002a1 1 0 000-1.664l-3.868-2.002z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <!-- Video 3 -->
+                        <a href="https://youtu.be/-Um4QVntx54?si=GpWj6t4-j_FFE_Iz" target="_blank"
+                            class="video-placeholder group aspect-16-9-container">
+                            <!-- Thumbnail -->
+                            <img src="assets/thumbnails copy.jpg" alt="Thumbnail Video 3"
+                                class="object-cover opacity-50 transition duration-300 group-hover:opacity-75">
+                            <!-- Overlay Content -->
+                            <div class="relative z-10 flex flex-col items-center justify-center p-2">
+                                <span
+                                    class="text-center text-xs sm:text-sm font-semibold text-white p-1 sm:p-2 bg-black bg-opacity-50 rounded-md transition duration-300 group-hover:bg-opacity-75">
+                                    [MOOBYL] Jalan Lain #5
+                                </span>
+                                <!-- Play Icon -->
+                                <svg class="w-8 h-8 text-[#7289da] opacity-0 group-hover:opacity-100 transition duration-300 mt-2"
+                                    fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4.004a1 1 0 001.555.832l3.868-2.002a1 1 0 000-1.664l-3.868-2.002z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- END -->
+
+                    <h3 class="text-xl font-semibold mb-3">Tugas & Alur:</h3>
+                    <!-- mobile -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-3 bg-[#3a3a5a] rounded-md text-center">
+                            <p class="text-sm code-font">Footage Recording</p>
+                            <p class="text-lg font-bold text-green-400">100%</p>
+                        </div>
+                        <div class="p-3 bg-[#3a3a5a] rounded-md text-center">
+                            <p class="text-sm code-font">Rough Cut Progress</p>
+                            <p class="text-lg font-bold text-yellow-400">85%</p>
+                        </div>
+                        <div class="p-3 bg-[#3a3a5a] rounded-md text-center">
+                            <p class="text-sm code-font">Color & SFX</p>
+                            <p class="text-lg font-bold text-red-400">60%</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="timeline-bar w-[85%]"></div>
+                    </div>
+                </section>
+
+                <!-- 5. PROJECT LAINNYA -->
+                <section id="project-freelance" class="panel p-6 sm:p-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 accent-text code-font">
+                        [03] OTHERS.PROJECT
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Slot 1 (16:9) -->
+                        <div class="panel p-4 clickable-media group cursor-pointer" data-media-src="assets/motion_kp.gif" data-media-title="Motion Grafis - Kredit Plus">
+                            <h3 class="text-xl font-semibold mb-2">Klien: [Kredit Plus]</h3>
+                            <p class="text-sm text-gray-400 mb-2">Jenis: Video Motion Grafis (Durasi 135 detik)</p>
+                            <!-- Memastikan 16:9 -->
+                            <div class="video-placeholder aspect-16-9-container border-2 border-transparent group-hover:border-[#7289da] transition">
+                                <img src="assets/motion_kp.gif">
+                            </div>
+                        </div>
+                        <!-- Slot 2 (16:9) -->
+                        <div class="panel p-4 clickable-media group cursor-pointer" data-media-src="assets/pod_comp.gif" data-media-title="Video Podcast & Monolog">
+                            <h3 class="text-xl font-semibold mb-2">Klien: [Kredit Plus]</h3>
+                            <p class="text-sm text-gray-400 mb-2">Jenis: Video Podcast & Monolog</p>
+                            <!-- Memastikan 16:9 -->
+                            <div class="video-placeholder aspect-16-9-container border-2 border-transparent group-hover:border-[#7289da] transition">
+                                <img src="assets/pod_comp.gif">
+                            </div>
+                        </div>
+                        <!-- Slot 3 (16:9) -->
+                        <div class="panel p-4 clickable-media group cursor-pointer" data-media-src="assets/mockup_gif.gif" data-media-title="Desain Mockup - Fanatika Studios">
+                            <h3 class="text-xl font-semibold mb-2">Klien: [Fanatika Studios]</h3>
+                            <p class="text-sm text-gray-400 mb-2">Jenis: Mockup Design</p>
+                            <!-- Memastikan 16:9 -->
+                            <div class="video-placeholder aspect-16-9-container border-2 border-transparent group-hover:border-[#7289da] transition">
+                                <img src="assets/mockup_gif.gif">
+                            </div>
+                        </div>
+                        <!-- Slot 4 (16:9) -->
+                        <div class="panel p-4">
+
+                            <h3 class="text-xl font-semibold mb-2">Slot Tersedia</h3>
+                            <p class="text-sm text-yellow-400 mb-2">Status: **OPEN**</p>
+
+                            <!-- Memastikan 16:9 -->
+                            <div
+                                class="video-placeholder aspect-16-9-container bg-[#1a1a2e] border-dashed border-2 border-yellow-500">
+
+                                <span class="text-yellow-500 relative z-10">Hubungi Saya untuk Project Baru!</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. PROJEK LAINNYA (Assets Library) -->
+                <section id="projek-lainnya" class="panel p-6 sm:p-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 accent-text code-font">
+                        [04] PERSONAL_PROJECT.LOG
+                    </h2>
+                    <p class="text-lg text-gray-400 mb-4">
+                        Kompilasi proyek personal untuk brand saya sendiri.
+                    </p>
+                    <!-- Diperbarui: Mengubah grid menjadi 4 kolom di semua ukuran layar sesuai permintaan pengguna. -->
+                    <!-- PERHATIAN: 4 kolom mungkin terlalu sempit pada layar HP yang sangat kecil. -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Mengganti h-24 dengan aspect-16-9-container -->
+                        <div class="video-placeholder aspect-16-9-container clickable-media group cursor-pointer" data-media-src="assets/cooming_soon.gif" data-media-title="Project Pribadi: Coming Soon">
+                            <img src="assets/cooming_soon.gif">
+                        </div>
+                        <div class="video-placeholder aspect-16-9-container clickable-media group cursor-pointer" data-media-src="assets/realease_2.gif" data-media-title="Project Pribadi: Release 1">
+                            <img src="assets/realease_2.gif">
+                        </div>
+                        <div class="video-placeholder aspect-16-9-container clickable-media group cursor-pointer" data-media-src="assets/socmed-1.gif" data-media-title="Project Pribadi: Media Sosial 1">
+                            <img src="assets/socmed-1.gif">
+                        </div>
+                        <div class="video-placeholder aspect-16-9-container clickable-media group cursor-pointer" data-media-src="assets/socme_2.gif" data-media-title="Project Pribadi: Media Sosial 2">
+                            <img src="assets/socme_2.gif">
+                        </div>
+                        <!-- Karena ini foto/gambar, saya anggap tetap menggunakan 16:9 agar konsisten dengan layout portfolio. -->
+                        <div class="video-placeholder aspect-16-9-container clickable-media group cursor-pointer" data-media-src="assets/photoshoot1.png" data-media-title="Project Pribadi: Photoshoot 1">
+                            <img src="assets/photoshoot1.png">
+                        </div>
+                        <!-- Menambahkan slot kosong agar tata letak terlihat rapi -->
+                        <div class="video-placeholder aspect-16-9-container bg-[#1a1a2e]/50 border-dashed border-1 border-[#3a3a5a] clickable-media group cursor-pointer" data-media-src="assets/photoshoot2.png" data-media-title="Project Pribadi: Photoshoot 2">
+                            <img src="assets/photoshoot2.png">
+                        </div>
+                        <div class="video-placeholder aspect-16-9-container bg-[#1a1a2e]/50 border-dashed border-1 border-[#3a3a5a] clickable-media group cursor-pointer" data-media-src="assets/shorts-clip.gif" data-media-title="Project Pribadi: Shorts Clip">
+                            <img src="assets/shorts-clip.gif">
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (Status Bar Bawah) -->
+    <footer
+        class="bg-[#121223] border-t border-[#3a3a5a] p-3 text-xs text-gray-500 text-center relative">
+        <span class="code-font">CONSOLE:</span> [Yunu Dinata] Portfolio successfully compiled. Last update: {{ December 14().2025()
+        }}. All rights reserved.
+    </footer>
+
+    <!-- MODAL WINDOW (Pop-up seperti macOS) -->
+    <div id="mediaModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div id="modalContent" class="modal-content w-full lg:w-auto h-auto transition-transform duration-300 transform scale-95">
+            <!-- Header Dot Khas macOS -->
+            <div class="flex items-center p-2 border-b border-[#3a3a5a] sticky top-0 bg-[#23233c] rounded-t-lg">
+                <!-- Close Button (Red) -->
+                <button onclick="closeModal()" class="modal-header-dots bg-red-500 hover:bg-red-600 focus:outline-none" title="Close"></button>
+                <!-- Minimize (Yellow) -->
+                <span class="modal-header-dots bg-yellow-500" title="Minimize"></span>
+                <!-- Maximize (Green) -->
+                <span class="modal-header-dots bg-green-500" title="Maximize"></span>
+                
+                <!-- Title -->
+                <span id="modalTitle" class="ml-3 text-sm font-medium text-gray-400 code-font">MEDIA_PREVIEW.gif</span>
+            </div>
+            
+            <!-- Body: Tempat Media (Gambar/GIF) Ditampilkan -->
+            <div id="modalBody" class="p-0 flex items-center justify-center overflow-hidden">
+                <!-- Konten Media akan dimasukkan di sini oleh JS -->
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- LOGIC MODAL ---
+
+        const modal = document.getElementById('mediaModal');
+        const modalBody = document.getElementById('modalBody');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+        const clickableMediaElements = document.querySelectorAll('.clickable-media, #profile-pic');
+        
+        /**
+         * Menampilkan modal dengan konten media yang sesuai.
+         * @param {string} src - Sumber (URL) gambar atau GIF.
+         * @param {string} title - Judul untuk header modal.
+         */
+        function showModal(src, title) {
+            // 1. Siapkan konten media
+            const mediaType = src.endsWith('.gif') || src.endsWith('.jpg') || src.endsWith('.png') ? 'image' : 'unknown';
+            
+            if (mediaType === 'image') {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = title;
+                img.className = 'w-full h-auto max-h-[85vh] object-contain rounded-b-lg';
+                
+                modalBody.innerHTML = ''; // Kosongkan konten lama
+                modalBody.appendChild(img);
+                modalTitle.textContent = title;
+                
+                // 2. Tampilkan modal dengan transisi
+                modal.classList.remove('hidden');
+                
+                // Jeda sebentar untuk memastikan DOM dirender sebelum menambahkan kelas opacity/transform
+                setTimeout(() => {
+                    modal.classList.add('opacity-100');
+                    modalContent.classList.remove('scale-95');
+                }, 10);
+
+                 // Hentikan scrolling body
+                document.body.style.overflow = 'hidden';
+            } else {
+                console.error("Tipe media tidak didukung untuk pop-up.");
+            }
+        }
+
+        /**
+         * Menutup modal.
+         */
+        function closeModal() {
+            // 1. Terapkan transisi penutupan
+            modal.classList.remove('opacity-100');
+            modalContent.classList.add('scale-95');
+            
+            // 2. Sembunyikan setelah transisi selesai
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modalBody.innerHTML = ''; // Kosongkan body
+                document.body.style.overflow = 'auto'; // Kembalikan scrolling body
+            }, 300);
+        }
+
+        // Event listener untuk menutup modal saat mengklik di luar konten modal
+        modal.addEventListener('click', (e) => {
+            // Jika yang diklik adalah overlay, bukan konten modal itu sendiri
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Event listener untuk menutup modal dengan tombol 'Esc'
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        // 3. Tambahkan event listener ke semua elemen media yang dapat diklik
+        clickableMediaElements.forEach(element => {
+            element.addEventListener('click', (e) => {
+                // Untuk menghindari perilaku default (misalnya link <a>), kita hentikan propagasi
+                e.preventDefault(); 
+                e.stopPropagation();
+
+                let src, title;
+
+                // Cek jika elemen yang diklik adalah <img> (foto profil)
+                if (element.tagName === 'IMG' && element.id === 'profile-pic') {
+                    src = element.getAttribute('data-media-src');
+                    title = element.getAttribute('data-media-title');
+                } 
+                // Cek jika elemen yang diklik adalah container (GIF/Image di dalam project)
+                else if (element.classList.contains('clickable-media')) {
+                    src = element.getAttribute('data-media-src');
+                    title = element.getAttribute('data-media-title');
+                }
+
+                if (src && title) {
+                    showModal(src, title);
+                } else {
+                    // Jika elemen media adalah link YouTube, biarkan perilaku defaultnya (buka di tab baru)
+                    if(element.tagName === 'A' && element.target === '_blank') {
+                        // Tidak perlu berbuat apa-apa, link akan terbuka secara normal
+                    } else {
+                        console.error("Media source atau title tidak ditemukan untuk elemen ini.");
+                    }
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>

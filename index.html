@@ -119,6 +119,17 @@
             display: inline-block;
             margin-right: 4px;
         }
+
+        /* Language Toggle Switch Style */
+        .lang-switch-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #1a1a2e;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid #3a3a5a;
+        }
     </style>
 </head>
 
@@ -131,15 +142,31 @@
             [YUNU_DINATA].prproj
         </div>
         <!-- Menyesuaikan layout menu di mobile -->
-        <div class="flex flex-wrap justify-center space-x-3 sm:space-x-6 text-xs sm:text-sm">
-            <a href="#home" class="hover:text-white transition duration-150 text-[#99aaff]">File</a>
-            <a href="#profil" class="hover:text-white transition duration-150">Edit</a>
-            <a href="#riwayat-kerja" class="hover:text-white transition duration-150">Sequence</a>
-            <a href="#project-freelance" class="hover:text-white transition duration-150">Effects</a>
-            <a href="#kontak" class="hover:text-white transition duration-150">Export</a>
+        <div class="flex flex-wrap justify-center items-center space-x-3 sm:space-x-6 text-xs sm:text-sm">
+            <a href="#home" class="hover:text-white transition duration-150 text-[#99aaff]" data-id="Home"
+                data-en="Home">Home</a>
+            <a href="#profil" class="hover:text-white transition duration-150" data-id="Profil"
+                data-en="Profile">Profil</a>
+            <a href="#riwayat-kerja" class="hover:text-white transition duration-150" data-id="Pengalaman"
+                data-en="Experience">Pengalaman</a>
+            <a href="#project-freelance" class="hover:text-white transition duration-150" data-id="Proyek"
+                data-en="Project">Proyek</a>
+
+            <!-- Language Toggle -->
+            <div class="lang-switch-container ml-2">
+                <span class="text-[10px] font-bold text-gray-400">ID</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="langToggle" class="sr-only peer">
+                    <div
+                        class="w-9 h-5 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600">
+                    </div>
+                </label>
+                <span class="text-[10px] font-bold text-gray-400">EN</span>
+            </div>
         </div>
+
         <div class="text-xs text-gray-500 code-font hidden md:block">
-            STATUS: Online | Render Queue: 0
+            STATUS: <span data-id="Online" data-en="Online">Online</span> | Render Queue: 0
         </div>
     </nav>
 
@@ -152,32 +179,39 @@
                 <h1 class="text-4xl sm:text-6xl font-extrabold mb-4 accent-text code-font tracking-tight">
                     VIDEO PORTFOLIO V2.5
                 </h1>
-                <p class="text-lg sm:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto">
+                <p class="text-lg sm:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto"
+                    data-id="Transformasi Ide. Storytelling. Video Pendek."
+                    data-en="Idea Transformation. Storytelling. Short Videos.">
                     Transformasi Ide. Storytelling. Video Pendek.
                 </p>
                 <!-- Button CTA -->
                 <a href="#pekerjaan-sekarang"
-                    class="inline-block px-6 py-3 sm:px-8 sm:py-3 bg-[#7289da] text-[#121223] font-bold rounded-md shadow-lg hover:bg-[#99aaff] transition duration-300 transform hover:scale-105">
+                    class="inline-block px-6 py-3 sm:px-8 sm:py-3 bg-[#7289da] text-[#121223] font-bold rounded-md shadow-lg hover:bg-[#99aaff] transition duration-300 transform hover:scale-105"
+                    data-id="START PROJECT" data-en="START PROJECT">
                     START PROJECT
                 </a>
             </div>
 
             <!-- Timeline -->
             <div class="mt-12">
-                <h2 class="text-xl font-semibold mb-3 text-gray-300">Quick Stats:</h2>
+                <h2 class="text-xl font-semibold mb-3 text-gray-300" data-id="Statistik Cepat:" data-en="Quick Stats:">
+                    Statistik Cepat:</h2>
                 <!-- Mengubah tata letak agar responsif -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="panel p-4 rounded-lg text-center">
                         <p class="text-2xl sm:text-3xl font-bold accent-text code-font">4+</p>
-                        <p class="text-sm text-gray-400">Tahun Pengalaman</p>
+                        <p class="text-sm text-gray-400" data-id="Tahun Pengalaman" data-en="Years of Experience">Tahun
+                            Pengalaman</p>
                     </div>
                     <div class="panel p-4 rounded-lg text-center">
                         <p class="text-2xl sm:text-3xl font-bold accent-text code-font">800+</p>
-                        <p class="text-sm text-gray-400">Total Video Di-render</p>
+                        <p class="text-sm text-gray-400" data-id="Total Video Di-render"
+                            data-en="Total Rendered Videos">Total Video Di-render</p>
                     </div>
                     <div class="panel p-4 rounded-lg text-center">
                         <p class="text-2xl sm:text-3xl font-bold accent-text code-font">536M+</p>
-                        <p class="text-sm text-gray-400">Total Penonton di Youtube (Estimated)</p>
+                        <p class="text-sm text-gray-400" data-id="Total Penonton di Youtube (Estimasi)"
+                            data-en="Total YouTube Views (Estimated)">Total Penonton di Youtube (Estimasi)</p>
                     </div>
                 </div>
             </div>
@@ -202,10 +236,15 @@
                             class="rounded-full mx-auto mb-4 border-4 border-gray-600 w-32 h-32 object-cover cursor-pointer hover:opacity-80 transition"
                             id="profile-pic">
                         <p class="text-lg font-semibold text-center">Yunu Rachmadinata</p>
-                        <p class="text-sm text-gray-400 text-center code-font">Editor Video | YouTube Channel MOOBYl &
-                            Freelancer</p>
+                        <p class="text-sm text-gray-400 text-center code-font"
+                            data-id="Editor Video | YouTube Channel MOOBYl & Freelancer"
+                            data-en="Video Editor | MOOBYL YouTube Channel & Freelancer">
+                            Editor Video | YouTube Channel MOOBYl & Freelancer
+                        </p>
                     </div>
-                    <p class="text-sm text-gray-400 leading-relaxed">
+                    <p class="text-sm text-gray-400 leading-relaxed"
+                        data-id="Seorang Editor Video yang berfokus pada storytelling yang kuat dan ritme editan yang dinamis. Spesialisasi dalam konten *storytelling*, *video shorts*, *meme*, dan *edukasi*. Mayoritas editing dikerjakan dengan software Davinci Resolve, Adobe After Effects, dan Adobe Premiere Pro."
+                        data-en="A Video Editor focusing on strong storytelling and dynamic editing rhythm. Specializing in *storytelling* content, *video shorts*, *memes*, and *educational videos*. Majority of editing done with Davinci Resolve, Adobe After Effects, and Adobe Premiere Pro.">
                         Seorang Editor Video yang berfokus pada storytelling yang kuat dan ritme editan yang dinamis.
                         Spesialisasi dalam konten *storytelling*, *video shorts*, *meme*, dan *edukasi*.
                         Mayoritas editing dikerjakan dengan software Davinci Resolve, Adobe After Effects, dan Adobe
@@ -218,9 +257,16 @@
                     <h2 class="text-2xl font-bold mb-4 border-b border-gray-600 pb-2 accent-text">
                         :CONTACT.LOG
                     </h2>
-                    <p class="text-sm mb-2"><strong class="accent-text">Email:</strong> yunudinata@gmail.com</p>
+                    <p class="text-sm mb-2"><strong class="accent-text">Email:</strong> <a
+                            href="mailto:yunudinata@gmail.com"
+                            class="hover:text-white transition duration-150 hover:underline">yunudinata@gmail.com</a>
+                    </p>
                     <p class="text-sm mb-2"><strong class="accent-text">WhatsApp:</strong> 0857-7533-1730</p>
-                    <p class="text-sm mb-2"><strong class="accent-text">LinkedIn:</strong><a href="https://www.linkedin.com/in/yunu-dinata/" target="_blank"> Yunu Dinata</a></p>
+                    <p class="text-sm mb-2"><strong class="accent-text">LinkedIn:</strong>
+                        <a href="https://www.linkedin.com/in/yunu-dinata/"
+                            class="hover:text-white transition duration-150 hover:underline" target="_blank"> Yunu
+                            Dinata</a>
+                    </p>
                 </section>
 
             </aside>
@@ -230,55 +276,89 @@
 
                 <!-- 3. RIWAYAT KERJA (History Panel) -->
                 <section id="riwayat-kerja" class="panel p-6 sm:p-8">
-                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 accent-text code-font">
+                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 accent-text code-font"
+                        data-id="[01] RIWAYAT_KERJA.LOG" data-en="[01] WORK_HISTORY.LOG">
                         [01] RIWAYAT_KERJA.LOG
                     </h2>
                     <div class="space-y-6">
                         <!-- Riwayat 1 -->
                         <div class="border-l-4 border-blue-500 pl-4">
-                            <h3 class="text-lg sm:text-xl font-semibold text-white">Editor Utama - [Channel MOOBYL &
-                                JONPANIMA]
+                            <h3 class="text-lg sm:text-xl font-semibold text-white"
+                                data-id="Editor Utama - [Channel MOOBYL & JONPANIMA]"
+                                data-en="Lead Editor - [MOOBYL & JONPANIMA Channels]">
+                                Editor Utama - [Channel MOOBYL & JONPANIMA]
                             </h3>
-                            <p class="text-sm text-gray-400 code-font">2023 - Sekarang | Full-Time</p>
+                            <p class="text-sm text-gray-400 code-font" data-id="2023 - Sekarang | Penuh Waktu"
+                                data-en="2023 - Present | Full-Time">2023 - Sekarang | Penuh Waktu</p>
                             <ul class="list-disc list-inside text-gray-400 text-sm mt-2 ml-4">
-                                <li>Menulis dan membuat skrip untuk cerita animasi.</li>
-                                <li>Memproduksi dan mengedit 1 video konten animasi/minggu dengan durasi 10-15 menit.
+                                <li data-id="Menulis dan membuat skrip untuk cerita animasi."
+                                    data-en="Writing and creating scripts for animated stories.">Menulis dan membuat
+                                    skrip untuk cerita animasi.</li>
+                                <li data-id="Memproduksi dan mengedit 1 video konten animasi/minggu dengan durasi 10-15 menit."
+                                    data-en="Producing and editing 1 animated video/week with duration 10-15 minutes.">
+                                    Memproduksi dan mengedit 1 video konten animasi/minggu dengan durasi 10-15 menit.
                                 </li>
-                                <li>Bertanggung jawab atas editing harian 3-4 video shorts/minggu.</li>
+                                <li data-id="Bertanggung jawab atas editing harian 3-4 video shorts/minggu."
+                                    data-en="Responsible for daily editing of 3-4 shorts videos/week.">Bertanggung jawab
+                                    atas editing harian 3-4 video shorts/minggu.</li>
                             </ul>
                         </div>
                         <!-- Riwayat 2 -->
                         <div class="border-l-4 border-blue-500 pl-4">
-                            <h3 class="text-lg sm:text-xl font-semibold text-white">Editor Utama- [Facebook Page Muezza]
+                            <h3 class="text-lg sm:text-xl font-semibold text-white"
+                                data-id="Editor Utama- [Facebook Page Muezza]"
+                                data-en="Lead Editor - [Muezza Facebook Page]">Editor Utama- [Facebook Page Muezza]
                             </h3>
-                            <p class="text-sm text-gray-400 code-font">2022 - 2023 | Full Time</p>
+                            <p class="text-sm text-gray-400 code-font" data-id="2022 - 2023 | Penuh Waktu"
+                                data-en="2022 - 2023 | Full-Time">2022 - 2023 | Penuh Waktu</p>
                             <ul class="list-disc list-inside text-gray-400 text-sm mt-2 ml-4">
-                                <li>Bertanggung jawab atas editing 2 video kompilasi meme/minggu.</li>
-                                <li>Membuat highlights dari video streaming.</li>
+                                <li data-id="Bertanggung jawab atas editing 2 video kompilasi meme/minggu."
+                                    data-en="Responsible for editing 2 meme compilation videos/week.">Bertanggung jawab
+                                    atas editing 2 video kompilasi meme/minggu.</li>
+                                <li data-id="Membuat highlights dari video streaming."
+                                    data-en="Creating highlights from streaming videos.">Membuat highlights dari video
+                                    streaming.</li>
                             </ul>
                         </div>
                         <!-- Riwayat 3 -->
                         <div class="border-l-4 border-blue-500 pl-4">
-                            <h3 class="text-lg sm:text-xl font-semibold text-white">Desainer Mockup - [Fanatika Studio -
+                            <h3 class="text-lg sm:text-xl font-semibold text-white"
+                                data-id="Desainer Grafis - [Fanatika Studio - Freepik Exclusive Contributor]"
+                                data-en="Graphic Designer - [Fanatika Studio - Freepik Exclusive Contributor]">Desainer
+                                Grafis - [Fanatika Studio -
                                 Freepik
                                 Exclusive Contributor]</h3>
-                            <p class="text-sm text-gray-400 code-font">2022 - 2024 | Freelancer</p>
+                            <p class="text-sm text-gray-400 code-font" data-id="2022 - 2024 | Pekerja Lepas"
+                                data-en="2022 - 2024 | Freelancer">2022 - 2024 | Pekerja Lepas</p>
                             <ul class="list-disc list-inside text-gray-400 text-sm mt-2 ml-4">
-                                <li>Membuat dan mengunggah template mockup, seperti display kartu nama, kemasan produk,
+                                <li data-id="Membuat dan mengunggah template mockup, seperti display kartu nama, kemasan produk, atau layar gadget, yang siap pakai."
+                                    data-en="Creating and uploading ready-to-use mockup templates, such as business card displays, product packaging, or gadget screens.">
+                                    Membuat dan mengunggah template mockup, seperti display kartu nama, kemasan produk,
                                     atau layar gadget, yang siap pakai.</li>
-                                <li>Bertanggung jawab atas pembagian task di tim kecil.</li>
+                                <li data-id="Bertanggung jawab atas pembagian task di tim kecil."
+                                    data-en="Responsible for task distribution in a small team.">Bertanggung jawab atas
+                                    pembagian task di tim kecil.</li>
                             </ul>
                         </div>
                         <!-- Riwayat 4 -->
                         <div class="border-l-4 border-blue-500 pl-4">
-                            <h3 class="text-lg sm:text-xl font-semibold text-white">Videografer & Editor - [PT KB
+                            <h3 class="text-lg sm:text-xl font-semibold text-white"
+                                data-id="Videografer & Editor - [PT KB Finansia Multi Finance - Kreditplus]"
+                                data-en="Videographer & Editor - [PT KB Finansia Multi Finance - Kreditplus]">
+                                Videografer & Editor - [PT KB
                                 Finansia Multi
                                 Finance - Kreditplus]</h3>
-                            <p class="text-sm text-gray-400 code-font">2021 | Freelancer </p>
+                            <p class="text-sm text-gray-400 code-font" data-id="2021 | Pekerja Lepas"
+                                data-en="2021 | Freelancer">2021 | Pekerja Lepas </p>
                             <ul class="list-disc list-inside text-gray-400 text-sm mt-2 ml-4">
-                                <li>Bertanggung jawab atas pengambilan gambar untuk Company Profile.</li>
-                                <li>Mengedit video Company Profile.</li>
-                                <li>Membuat motion graphic untuk kebutuhan media sosial.</li>
+                                <li data-id="Bertanggung jawab atas pengambilan gambar untuk Company Profile."
+                                    data-en="Responsible for shooting for Company Profile.">Bertanggung jawab atas
+                                    pengambilan gambar untuk Company Profile.</li>
+                                <li data-id="Mengedit video Company Profile." data-en="Editing Company Profile videos.">
+                                    Mengedit video Company Profile.</li>
+                                <li data-id="Membuat motion graphic untuk kebutuhan media sosial."
+                                    data-en="Creating motion graphics for social media needs.">Membuat motion graphic
+                                    untuk kebutuhan media sosial.</li>
                             </ul>
                         </div>
                     </div>
@@ -286,10 +366,13 @@
 
                 <!-- 4. PEKERJAAN SEKARANG -->
                 <section id="pekerjaan-sekarang" class="panel p-6 sm:p-8">
-                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 accent-text code-font">
+                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 accent-text code-font"
+                        data-id="[02] PEKERJAAN_SEKARANG.PROJ" data-en="[02] CURRENT_WORK.PROJ">
                         [02] PEKERJAAN_SEKARANG.PROJ
                     </h2>
-                    <p class="text-lg text-gray-300 mb-4">
+                    <p class="text-lg text-gray-300 mb-4"
+                        data-id="Konten Weekly YouTube Channel MOOBYL (16k Subs) & JONPANIMA (778k Subs)"
+                        data-en="Weekly Content for YouTube Channel MOOBYL (16k Subs) & JONPANIMA (778k Subs)">
                         Konten Weekly YouTube Channel MOOBYL (16k Subs) & JONPANIMA (778k Subs)
                     </p>
 
@@ -326,7 +409,10 @@
                     </div>
 
                     <!-- Video Thumbnails (16:9) - TIDAK DAPAT DIKLIK UNTUK MODAL KARENA BERUPA LINK EKSTERNAL -->
-                    <p class="text-xs text-gray-500 mb-2 mt-6">Klik thumbnail di bawah untuk membuka video YouTube.</p>
+                    <p class="text-xs text-gray-500 mb-2 mt-6"
+                        data-id="Klik thumbnail di bawah untuk membuka video YouTube."
+                        data-en="Click thumbnail below to open YouTube video.">Klik thumbnail di bawah untuk membuka
+                        video YouTube.</p>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
                         <!-- Video 1 -->
                         <a href="https://youtu.be/kRrOJwe4a20?si=9KnZnarCZpRcMzu3" target="_blank"
@@ -396,19 +482,22 @@
                     </div>
                     <!-- END -->
 
-                    <h3 class="text-xl font-semibold mb-3">Tugas & Alur:</h3>
+                    <h3 class="text-xl font-semibold mb-3" data-id="Tugas & Alur:" data-en="Tasks & Workflow:">Tugas &
+                        Alur:</h3>
                     <!-- mobile -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="p-3 bg-[#3a3a5a] rounded-md text-center">
-                            <p class="text-sm code-font">Footage Recording</p>
+                            <p class="text-sm code-font" data-id="Perekaman Footage" data-en="Footage Recording">
+                                Perekaman Footage</p>
                             <p class="text-lg font-bold text-green-400">100%</p>
                         </div>
                         <div class="p-3 bg-[#3a3a5a] rounded-md text-center">
-                            <p class="text-sm code-font">Rough Cut Progress</p>
+                            <p class="text-sm code-font" data-id="Progres Rough Cut" data-en="Rough Cut Progress">
+                                Progres Rough Cut</p>
                             <p class="text-lg font-bold text-yellow-400">85%</p>
                         </div>
                         <div class="p-3 bg-[#3a3a5a] rounded-md text-center">
-                            <p class="text-sm code-font">Color & SFX</p>
+                            <p class="text-sm code-font" data-id="Warna & SFX" data-en="Color & SFX">Warna & SFX</p>
                             <p class="text-lg font-bold text-red-400">60%</p>
                         </div>
                     </div>
@@ -419,15 +508,20 @@
 
                 <!-- 5. PROJECT LAINNYA -->
                 <section id="project-freelance" class="panel p-6 sm:p-8">
-                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 accent-text code-font">
-                        [03] OTHERS.PROJECT
+                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 accent-text code-font" data-id="[03] PROYEK_LAINNYA"
+                        data-en="[03] OTHERS.PROJECT">
+                        [03] PROYEK_LAINNYA
                     </h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Slot 1 (16:9) -->
                         <div class="panel p-4 clickable-media group cursor-pointer"
                             data-media-src="assets/motion_kp.gif" data-media-title="Motion Grafis - Kredit Plus">
-                            <h3 class="text-xl font-semibold mb-2">Klien: [Kredit Plus]</h3>
-                            <p class="text-sm text-gray-400 mb-2">Jenis: Video Motion Grafis (Durasi 135 detik)</p>
+                            <h3 class="text-xl font-semibold mb-2" data-id="Klien: [Kredit Plus]"
+                                data-en="Client: [Kredit Plus]">Klien: [Kredit Plus]</h3>
+                            <p class="text-sm text-gray-400 mb-2"
+                                data-id="Jenis: Video Motion Grafis (Durasi 135 detik)"
+                                data-en="Type: Motion Graphics Video (135 seconds)">Jenis: Video Motion Grafis (Durasi
+                                135 detik)</p>
                             <!-- Memastikan 16:9 -->
                             <div
                                 class="video-placeholder aspect-16-9-container border-2 border-transparent group-hover:border-[#7289da] transition">
@@ -437,8 +531,10 @@
                         <!-- Slot 2 (16:9) -->
                         <div class="panel p-4 clickable-media group cursor-pointer" data-media-src="assets/pod_comp.gif"
                             data-media-title="Video Podcast & Monolog">
-                            <h3 class="text-xl font-semibold mb-2">Klien: [Kredit Plus]</h3>
-                            <p class="text-sm text-gray-400 mb-2">Jenis: Video Podcast & Monolog</p>
+                            <h3 class="text-xl font-semibold mb-2" data-id="Klien: [Kredit Plus]"
+                                data-en="Client: [Kredit Plus]">Klien: [Kredit Plus]</h3>
+                            <p class="text-sm text-gray-400 mb-2" data-id="Jenis: Video Podcast & Monolog"
+                                data-en="Type: Video Podcast & Monologue">Jenis: Video Podcast & Monolog</p>
                             <!-- Memastikan 16:9 -->
                             <div
                                 class="video-placeholder aspect-16-9-container border-2 border-transparent group-hover:border-[#7289da] transition">
@@ -448,8 +544,10 @@
                         <!-- Slot 3 (16:9) -->
                         <div class="panel p-4 clickable-media group cursor-pointer"
                             data-media-src="assets/compro-01.gif" data-media-title="Video Podcast & Monolog">
-                            <h3 class="text-xl font-semibold mb-2">Klien: [Kredit Plus]</h3>
-                            <p class="text-sm text-gray-400 mb-2">Jenis: Mini Company Profile</p>
+                            <h3 class="text-xl font-semibold mb-2" data-id="Klien: [Kredit Plus]"
+                                data-en="Client: [Kredit Plus]">Klien: [Kredit Plus]</h3>
+                            <p class="text-sm text-gray-400 mb-2" data-id="Jenis: Mini Company Profile"
+                                data-en="Type: Mini Company Profile">Jenis: Mini Company Profile</p>
                             <!-- Memastikan 16:9 -->
                             <div
                                 class="video-placeholder aspect-16-9-container border-2 border-transparent group-hover:border-[#7289da] transition">
@@ -459,8 +557,10 @@
                         <!-- Slot 4 (16:9) -->
                         <div class="panel p-4 clickable-media group cursor-pointer"
                             data-media-src="assets/onmeet-01.gif" data-media-title="Video Podcast & Monolog">
-                            <h3 class="text-xl font-semibold mb-2">Klien: [Kredit Plus]</h3>
-                            <p class="text-sm text-gray-400 mb-2">Jenis: Internal Announcement</p>
+                            <h3 class="text-xl font-semibold mb-2" data-id="Klien: [Kredit Plus]"
+                                data-en="Client: [Kredit Plus]">Klien: [Kredit Plus]</h3>
+                            <p class="text-sm text-gray-400 mb-2" data-id="Jenis: Internal Announcement"
+                                data-en="Type: Internal Announcement">Jenis: Internal Announcement</p>
                             <!-- Memastikan 16:9 -->
                             <div
                                 class="video-placeholder aspect-16-9-container border-2 border-transparent group-hover:border-[#7289da] transition">
@@ -470,8 +570,10 @@
                         <!-- Slot 5 (16:9) -->
                         <div class="panel p-4 clickable-media group cursor-pointer"
                             data-media-src="assets/mockup_gif.gif" data-media-title="Desain Mockup - Fanatika Studios">
-                            <h3 class="text-xl font-semibold mb-2">Klien: [Fanatika Studios]</h3>
-                            <p class="text-sm text-gray-400 mb-2">Jenis: Mockup Design</p>
+                            <h3 class="text-xl font-semibold mb-2" data-id="Klien: [Fanatika Studios]"
+                                data-en="Client: [Fanatika Studios]">Klien: [Fanatika Studios]</h3>
+                            <p class="text-sm text-gray-400 mb-2" data-id="Jenis: Mockup Design"
+                                data-en="Type: Mockup Design">Jenis: Mockup Design</p>
                             <!-- Memastikan 16:9 -->
                             <div
                                 class="video-placeholder aspect-16-9-container border-2 border-transparent group-hover:border-[#7289da] transition">
@@ -481,8 +583,10 @@
                         <!-- Slot 6 (16:9) -->
                         <div class="panel p-4 clickable-media group cursor-pointer"
                             data-media-src="assets/mockup_gif.gif" data-media-title="Desain Mockup - Fanatika Studios">
-                            <h3 class="text-xl font-semibold mb-2">Klien: [Muezza]</h3>
-                            <p class="text-sm text-gray-400 mb-2">Jenis: Video Kompilasi</p>
+                            <h3 class="text-xl font-semibold mb-2" data-id="Klien: [Muezza]" data-en="Client: [Muezza]">
+                                Klien: [Muezza]</h3>
+                            <p class="text-sm text-gray-400 mb-2" data-id="Jenis: Video Kompilasi"
+                                data-en="Type: Compilation Video">Jenis: Video Kompilasi</p>
                             <!-- Memastikan 16:9 -->
                             <div
                                 class="video-placeholder aspect-16-9-container border-2 border-transparent group-hover:border-[#7289da] transition">
@@ -492,25 +596,33 @@
                         <!-- Slot 6 (16:9) -->
                         <div class="panel p-4">
 
-                            <h3 class="text-xl font-semibold mb-2">Slot Tersedia</h3>
+                            <h3 class="text-xl font-semibold mb-2" data-id="Slot Tersedia" data-en="Slot Available">Slot
+                                Tersedia</h3>
                             <p class="text-sm text-yellow-400 mb-2">Status: **OPEN**</p>
 
                             <!-- Memastikan 16:9 -->
-                            <div
-                                class="video-placeholder aspect-16-9-container bg-[#1a1a2e] border-dashed border-2 border-yellow-500">
+                            <a href="mailto:yunudinata@gmail.com" target="_blank"
+                                class="video-placeholder aspect-16-9-container bg-[#1a1a2e] border-dashed border-2 border-yellow-500 flex items-center justify-center hover:bg-opacity-80 transition-all cursor-pointer w-full block text-decoration-none"
+                                aria-label="Hubungi Saya untuk Project Baru">
 
-                                <span class="text-yellow-500 relative z-10">Hubungi Saya untuk Project Baru!</span>
-                            </div>
+                                <span class="text-yellow-500 relative z-10 font-bold"
+                                    data-id="Hubungi Saya untuk Project Baru!" data-en="Contact Me for New Projects!">
+                                    Hubungi Saya untuk Project Baru!
+                                </span>
+
+                            </a>
                         </div>
                     </div>
                 </section>
 
                 <!-- 6. PROJEK LAINNYA (Assets Library) -->
                 <section id="projek-lainnya" class="panel p-6 sm:p-8">
-                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 accent-text code-font">
+                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 accent-text code-font"
+                        data-id="[04] PERSONAL_PROJECT.LOG" data-en="[04] PERSONAL_PROJECT.LOG">
                         [04] PERSONAL_PROJECT.LOG
                     </h2>
-                    <p class="text-lg text-gray-400 mb-4">
+                    <p class="text-lg text-gray-400 mb-4" data-id="Kompilasi proyek personal untuk brand dan kompetisi."
+                        data-en="Compilation of personal projects for brands and competitions.">
                         Kompilasi proyek personal untuk brand dan kompetisi.
                     </p>
                     <!-- Diperbarui: Mengubah grid menjadi 4 kolom di semua ukuran layar sesuai permintaan pengguna. -->
@@ -538,7 +650,8 @@
                             <img src="assets/shorts-clip.gif">
                         </div>
                         <div class="video-placeholder aspect-16-9-container bg-[#1a1a2e]/50 border-dashed border-1 border-[#3a3a5a] clickable-media group cursor-pointer"
-                            data-media-src="assets/shorts-bumper.gif" data-media-title="Project Pribadi: Shorts Clip dan Bumper">
+                            data-media-src="assets/shorts-bumper.gif"
+                            data-media-title="Project Pribadi: Shorts Clip dan Bumper">
                             <img src="assets/shorts-bumper.gif">
                         </div>
                         <div class="video-placeholder aspect-16-9-container bg-[#1a1a2e]/50 border-dashed border-1 border-[#3a3a5a] clickable-media group cursor-pointer"
@@ -561,12 +674,14 @@
                         </div>
                         <!-- Menambahkan slot kosong agar tata letak terlihat rapi -->
                         <div class="video-placeholder aspect-16-9-container bg-[#1a1a2e]/50 border-dashed border-1 border-[#3a3a5a] clickable-media group cursor-pointer"
-                            data-media-src="assets/carou-01.png" data-media-title="Project Pribadi: Konten Sosial Media">
+                            data-media-src="assets/carou-01.png"
+                            data-media-title="Project Pribadi: Konten Sosial Media">
                             <img src="assets/carou-01.png">
                         </div>
                         <!-- Menambahkan slot kosong agar tata letak terlihat rapi -->
                         <div class="video-placeholder aspect-16-9-container bg-[#1a1a2e]/50 border-dashed border-1 border-[#3a3a5a] clickable-media group cursor-pointer"
-                            data-media-src="assets/olshop-1.png" data-media-title="Project Pribadi: Display Online Shop">
+                            data-media-src="assets/olshop-1.png"
+                            data-media-title="Project Pribadi: Display Online Shop">
                             <img src="assets/olshop-1.png">
                         </div>
                     </div>
@@ -578,9 +693,11 @@
 
     <!-- Footer (Status Bar Bawah) -->
     <footer class="bg-[#121223] border-t border-[#3a3a5a] p-3 text-xs text-gray-500 text-center relative">
-        <span class="code-font">CONSOLE:</span> [Yunu Dinata] Portfolio successfully compiled. Last update: {{ December
-        14().2025()
-        }}. All rights reserved.
+        <span class="code-font">CONSOLE:</span> <span
+            data-id="CONSOLE: [Yunu Dinata] Portfolio successfully compiled. Last update: {{ December 14().2025() }}. All rights reserved."
+            data-en="CONSOLE: [Yunu Dinata] Portfolio successfully compiled. Last update: {{ December 14().2025() }}. All rights reserved.">CONSOLE:
+            [Yunu Dinata]
+            Portfolio successfully compiled. Last update: {{ December 14().2025() }}. All rights reserved.</span>
     </footer>
 
     <!-- MODAL WINDOW (Pop-up seperti macOS) -->
@@ -611,6 +728,27 @@
 
 
     <script>
+        // --- LOGIC TOGGLE BAHASA ---
+        const langToggle = document.getElementById('langToggle');
+        let currentLang = 'id';
+
+        function updateLanguage() {
+            // Update semua elemen yang memiliki data-id dan data-en
+            const elements = document.querySelectorAll('[data-id][data-en]');
+            elements.forEach(el => {
+                el.innerText = el.getAttribute(`data-${currentLang}`);
+            });
+
+            // Update placeholder title pada modal jika modal sedang terbuka
+            document.documentElement.lang = currentLang;
+        }
+
+        langToggle.addEventListener('change', () => {
+            currentLang = langToggle.checked ? 'en' : 'id';
+            updateLanguage();
+        });
+
+
         // --- LOGIC MODAL ---
 
         const modal = document.getElementById('mediaModal');
